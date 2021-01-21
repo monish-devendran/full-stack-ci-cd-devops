@@ -15,3 +15,19 @@ variable "mongodbatlas_private_key" {
 variable "gcp_machine_type"{
     type = string
 }
+
+variable "atlas_project_id" {
+    type = string
+}
+
+variable "atlas_user_password" {
+    type = string
+}
+
+variable "cloudflare_api_token"{
+    type = string
+}
+
+variable "domain_name"{
+    type = string
+}

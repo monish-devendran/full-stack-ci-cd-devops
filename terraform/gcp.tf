@@ -20,8 +20,8 @@ data "google_compute_network" "default"{
 
 #firewall rule
 resource "google_compute_firewall" "allow_http" {
-  name    = "allow_http-${terraform.workspace}"
-  network = google_compute_address.default.name
+  name    = "allow-http-${terraform.workspace}"
+  network = data.google_compute_network.default.name
 
   
   allow {
@@ -32,13 +32,8 @@ resource "google_compute_firewall" "allow_http" {
   source_tags = ["web"]
 
   #target tags can attach the vm to the firewall rule
-  target_tags  = ["allow_http-${terraform.workspace}"]
+  target_tags  = ["allow-http-${terraform.workspace}"]
 }
-
-resource "google_compute_network" "default" {
-  name = "test-network"
-}
-
 
 
 
@@ -57,7 +52,7 @@ resource "google_compute_instance" "instance" {
   machine_type = var.gcp_machine_type
   zone         = "us-central1-a"
 
-  tags = [google_compute_firewall.allow_http.target_tags]
+  tags = google_compute_firewall.allow_http.target_tags
 
   boot_disk {
     initialize_params {
